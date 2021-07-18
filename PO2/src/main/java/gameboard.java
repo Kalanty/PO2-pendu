@@ -1,3 +1,8 @@
+
+import java.awt.KeyEventDispatcher;
+import java.awt.KeyboardFocusManager;
+import java.awt.event.KeyEvent;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -377,6 +382,21 @@ public class gameboard extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new gameboard().setVisible(true);
+            }
+        });
+        
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
+            @Override
+            public boolean dispatchKeyEvent(KeyEvent e) {
+                if(e.getID() == KeyEvent.KEY_TYPED) {
+                    String lettre = String.valueOf(e.getKeyChar()).toUpperCase();
+                    String lettresAcceptes = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                    
+                    if(lettresAcceptes.contains(lettre)) {
+                         System.out.println(lettre);    
+                    }
+                }
+                return false;
             }
         });
     }
