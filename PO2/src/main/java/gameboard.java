@@ -26,7 +26,39 @@ public class gameboard extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenuBar1 = new javax.swing.JMenuBar();
+        mbFichier = new javax.swing.JMenu();
+        miQuitter = new javax.swing.JMenuItem();
+        mbAide = new javax.swing.JMenu();
+        aProposDe = new javax.swing.JMenuItem();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        mbFichier.setText("Fichier");
+
+        miQuitter.setText("Quitter");
+        miQuitter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miQuitterActionPerformed(evt);
+            }
+        });
+        mbFichier.add(miQuitter);
+
+        jMenuBar1.add(mbFichier);
+
+        mbAide.setText("Aide");
+
+        aProposDe.setText("A Propos De");
+        aProposDe.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                aProposDeActionPerformed(evt);
+            }
+        });
+        mbAide.add(aProposDe);
+
+        jMenuBar1.add(mbAide);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -36,11 +68,19 @@ public class gameboard extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGap(0, 279, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void miQuitterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miQuitterActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_miQuitterActionPerformed
+
+    private void aProposDeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aProposDeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_aProposDeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -78,5 +118,10 @@ public class gameboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem aProposDe;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenu mbAide;
+    private javax.swing.JMenu mbFichier;
+    private javax.swing.JMenuItem miQuitter;
     // End of variables declaration//GEN-END:variables
 }
