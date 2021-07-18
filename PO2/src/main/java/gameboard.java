@@ -572,7 +572,8 @@ public class gameboard extends javax.swing.JFrame {
                     String lettresAcceptes = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
                     
                     if(lettresAcceptes.contains(lettre)) {
-                         System.out.println(lettre);    
+                        System.out.println(lettre);
+                        //lettreTapper(lettre);
                     }
                 }
                 return false;
