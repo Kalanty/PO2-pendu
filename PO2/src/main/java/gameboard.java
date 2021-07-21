@@ -32,8 +32,10 @@ public class gameboard extends javax.swing.JFrame {
         initComponents();
         //Demander le nom du joueur
         motCache();
-        
+        //creation d'un String pour y stocker le resultat de la comparaison
+        //entre mon motChoisi et ma liste de lettre essayer.
         String texteMotMystere = motMystereCache(motChoisi, histLettres);
+        //afficher le String apres chaque comparaison
         mot.setText(texteMotMystere);    
         
         //joueur1 = nomDuJoueur.getText();
@@ -526,30 +528,32 @@ public class gameboard extends javax.swing.JFrame {
         //afficher le mot dans la console.
         motChoisi = motsMysteres[(int) (Math.random() * motsMysteres.length)].toUpperCase();
         System.out.println(motChoisi);
-    }
-    
-    private String motMystereCache(String word, ArrayList<String> lettres) {       
         
+    }
+    //creation d'une methode generique pour comparer un mot a un tableau de lettre
+    //Boucle qui separe le mot lettre par lettre
+    private String motMystereCache(String word, ArrayList<String> lettres) {       
         StringBuilder chaine = new StringBuilder();
-        //remplacer tout les lettres du motChoisi par des "_ "
+        //boucle pour remplacer tout les lettres du motChoisi par des "_ "
         for(int i = 0; i < word.length(); i++){
             String lettreCourante = String.valueOf(word.charAt(i));
-                        
+            //Si les lettres du mot fais partir de mes lettres testées,
+            //remplacer la lettre dans le mot
             if(lettres.indexOf(lettreCourante)>-1){
                 chaine.append(lettreCourante);
              }
+            // laisser le "_ " si la lettre n'est pas dans le mot
             else{
                 chaine.append("_ ");
             }
         }
-        
         return chaine.toString();
     }
-    
+    // methode qui donne -1 si une lettre ne fais pas partie d'un mot
     private boolean estErreur(String word, String lettre) {
         return word.indexOf(lettre) == -1;
     }
-    
+    //methode qui retourne la quantité de lettre essayés
     private int nbEssais() {
         return histLettres.size();
     }
@@ -569,34 +573,37 @@ public class gameboard extends javax.swing.JFrame {
         //au ArrayList histLettres
         var bouton = (javax.swing.JButton)evt.getSource();
         lettreTapper(bouton.getText());
+        //rend impossible l'utilisation des boutons avec la première
+        //utilisation
         bouton.setEnabled(false);
-        //JButton.
-        
-        
     }//GEN-LAST:event_clavierActionPerformed
+    //private void activerBouton(){
+     //   var bouton = (javax.swing.JButton)getSource();
+     //   bouton.setEnabled(false);
+
+    //}
     
     public void lettreTapper(String lettre){
-        //System.out.println(lettre);
-        
         histLettres.add(lettre);
-        System.out.println(histLettres);
-
+        System.out.println(histLettres);        
         score.setText(histLettres.toString());
-        
+        // SI la methode estErreur() qui compare les lettres avec le mot
+        //incrementation de la variable nbErreurs
         if(estErreur(motChoisi, lettre)) {
-            
             nbErreurs++;
         }
-        
         System.out.println(nbErreurs + "/" + nbEssais());
-        
-        
+        //creation du String texteMotMystere qui prend la valeur
         String texteMotMystere = motMystereCache(motChoisi, histLettres);
-        
+        //s'il n'y a plus de "_" dans la varible texteMotMystere, 
         // YOU WIN!!!!!
+        //effacer l'historique de lettres
+        //selection d'un nouveau mot dans la banque de mot
+        
         if(texteMotMystere.indexOf("_") == -1) {
             System.out.println("YOU ROCK! YOU WIN! CHICKEN DINNER!");
             histLettres.clear();
+            
             motCache();
             texteMotMystere = motMystereCache(motChoisi, histLettres);
             mot.setText(texteMotMystere);
