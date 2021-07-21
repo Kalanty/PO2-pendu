@@ -22,6 +22,7 @@ public class gameboard extends javax.swing.JFrame {
     private String joueur1;
     private String motChoisi;
     private StringBuilder motH;
+    private int nbErreurs = 0;
 
     /**
      * Creates new form gameboard
@@ -32,6 +33,8 @@ public class gameboard extends javax.swing.JFrame {
         //Demander le nom du joueur
         motCache();
         
+        String texteMotMystere = motMystereCache(motChoisi, histLettres);
+        mot.setText(texteMotMystere);    
         
         //joueur1 = nomDuJoueur.getText();
         
@@ -518,27 +521,39 @@ public class gameboard extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     public void motCache(){
-        motH = new StringBuilder();
         //Selection du mot mystere dans la banque de mot.
         //Force le mot choisi en majuscule pour eviter les conflits avec le clavier.
         //afficher le mot dans la console.
         motChoisi = motsMysteres[(int) (Math.random() * motsMysteres.length)].toUpperCase();
         System.out.println(motChoisi);
-        System.out.println(motH);
+    }
+    
+    private String motMystereCache(String word, ArrayList<String> lettres) {       
+        
+        StringBuilder chaine = new StringBuilder();
         //remplacer tout les lettres du motChoisi par des "_ "
-        for(int i = 0; i < motChoisi.length(); i++){
-            var lettreCourante = motChoisi;
-            System.out.println(lettreCourante.charAt(i));
-            if(histLettres.indexOf(lettreCourante)>-1){
-                motH.append(lettreCourante);
+        for(int i = 0; i < word.length(); i++){
+            String lettreCourante = String.valueOf(word.charAt(i));
+                        
+            if(lettres.indexOf(lettreCourante)>-1){
+                chaine.append(lettreCourante);
              }
             else{
-                motH.append("_ ");
+                chaine.append("_ ");
             }
         }
-        //mettre motH dans le JTextField "mot"
-        mot.setText(motH.toString());
+        
+        return chaine.toString();
     }
+    
+    private boolean estErreur(String word, String lettre) {
+        return word.indexOf(lettre) == -1;
+    }
+    
+    private int nbEssais() {
+        return histLettres.size();
+    }
+    
     private void miQuitterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miQuitterActionPerformed
         System.out.println("Fermeture de l'application");
         System.exit(0);
@@ -568,7 +583,26 @@ public class gameboard extends javax.swing.JFrame {
 
         score.setText(histLettres.toString());
         
-
+        if(estErreur(motChoisi, lettre)) {
+            
+            nbErreurs++;
+        }
+        
+        System.out.println(nbErreurs + "/" + nbEssais());
+        
+        
+        String texteMotMystere = motMystereCache(motChoisi, histLettres);
+        
+        // YOU WIN!!!!!
+        if(texteMotMystere.indexOf("_") == -1) {
+            System.out.println("YOU ROCK! YOU WIN! CHICKEN DINNER!");
+            histLettres.clear();
+            motCache();
+            texteMotMystere = motMystereCache(motChoisi, histLettres);
+            mot.setText(texteMotMystere);
+        }
+        
+        mot.setText(texteMotMystere); 
     }
     
     private void debuterPartieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_debuterPartieActionPerformed
