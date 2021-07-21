@@ -21,7 +21,6 @@ public class gameboard extends javax.swing.JFrame {
             , "poulet", "camion", "voiture", "ordinateur", "programmer"};
     private String joueur1;
     private String motChoisi;
-    private String motHidden;
     private StringBuilder motH;
 
     /**
@@ -33,30 +32,13 @@ public class gameboard extends javax.swing.JFrame {
         //Demander le nom du joueur
         motCache();
         
+        
         //joueur1 = nomDuJoueur.getText();
         
         //System.out.println(joueur1);
     }
-    private void motCache(){
-        motH = new StringBuilder();
-        
-        //Selection du mot mystere dans la banque de mot.
-        //Force le mot choisi en majuscule pour eviter les conflits avec le clavier.
-        motChoisi = motsMysteres[(int) (Math.random() * motsMysteres.length)].toUpperCase();
-        System.out.println(motChoisi);
-        //remplacer tout les lettres du motChoisi par des underscore
-        motH.append(motChoisi.replaceAll("[A-Z]","_ "));
-        System.out.println(motHidden);
-        System.out.println(motH);
-        mot.setText(motH.toString());
-
-        //mettre motHidden dans le JTextField "mot"
-        //mot.setText(motHidden.toString());
-        
-        //if(motHidden.contains()){
-            
-        //}
-    }
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -71,7 +53,7 @@ public class gameboard extends javax.swing.JFrame {
         labelJoueur = new javax.swing.JLabel();
         nomDuJoueur = new javax.swing.JTextField();
         labelScore = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        score = new javax.swing.JTextField();
         labelMotMystere = new javax.swing.JLabel();
         mot = new javax.swing.JTextField();
         jButton4 = new javax.swing.JButton();
@@ -132,8 +114,8 @@ public class gameboard extends javax.swing.JFrame {
         labelScore.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelScore.setText("Score :");
 
-        jTextField2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTextField2.setText("0");
+        score.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        score.setText("0");
 
         labelMotMystere.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelMotMystere.setText("Mot mystere");
@@ -161,7 +143,7 @@ public class gameboard extends javax.swing.JFrame {
                             .addComponent(labelScore)
                             .addComponent(labelJoueur, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(nomDuJoueur)
-                            .addComponent(jTextField2)
+                            .addComponent(score)
                             .addComponent(mot)))
                     .addGroup(rightPanelLayout.createSequentialGroup()
                         .addGap(27, 27, 27)
@@ -178,7 +160,7 @@ public class gameboard extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(labelScore)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(score, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(labelMotMystere)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -535,7 +517,28 @@ public class gameboard extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    public void motCache(){
+        motH = new StringBuilder();
+        //Selection du mot mystere dans la banque de mot.
+        //Force le mot choisi en majuscule pour eviter les conflits avec le clavier.
+        //afficher le mot dans la console.
+        motChoisi = motsMysteres[(int) (Math.random() * motsMysteres.length)].toUpperCase();
+        System.out.println(motChoisi);
+        System.out.println(motH);
+        //remplacer tout les lettres du motChoisi par des "_ "
+        for(int i = 0; i < motChoisi.length(); i++){
+            var lettreCourante = motChoisi;
+            System.out.println(lettreCourante.charAt(i));
+            if(histLettres.indexOf(lettreCourante)>-1){
+                motH.append(lettreCourante);
+             }
+            else{
+                motH.append("_ ");
+            }
+        }
+        //mettre motH dans le JTextField "mot"
+        mot.setText(motH.toString());
+    }
     private void miQuitterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miQuitterActionPerformed
         System.out.println("Fermeture de l'application");
         System.exit(0);
@@ -553,14 +556,19 @@ public class gameboard extends javax.swing.JFrame {
         lettreTapper(bouton.getText());
         bouton.setEnabled(false);
         //JButton.
-        System.out.println(histLettres);
+        
         
     }//GEN-LAST:event_clavierActionPerformed
     
-    private void lettreTapper(String lettre){
+    public void lettreTapper(String lettre){
+        //System.out.println(lettre);
+        
         histLettres.add(lettre);
+        System.out.println(histLettres);
+
+        score.setText(histLettres.toString());
         
-        
+
     }
     
     private void debuterPartieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_debuterPartieActionPerformed
@@ -658,7 +666,6 @@ public class gameboard extends javax.swing.JFrame {
     private javax.swing.JButton jButton9;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JLabel labelJoueur;
     private javax.swing.JLabel labelMotMystere;
     private javax.swing.JLabel labelScore;
@@ -668,5 +675,6 @@ public class gameboard extends javax.swing.JFrame {
     private javax.swing.JTextField mot;
     private javax.swing.JTextField nomDuJoueur;
     private javax.swing.JPanel rightPanel;
+    private javax.swing.JTextField score;
     // End of variables declaration//GEN-END:variables
 }
