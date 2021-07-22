@@ -572,16 +572,20 @@ public class gameboard extends javax.swing.JFrame {
         //lors d'un clic de la souris sur le clavier, prendre son contenu txt et l'ajouter
         //au ArrayList histLettres
         var bouton = (javax.swing.JButton)evt.getSource();
+        bouton.setEnabled(false);
         lettreTapper(bouton.getText());
         //rend impossible l'utilisation des boutons avec la première
         //utilisation
-        bouton.setEnabled(false);
     }//GEN-LAST:event_clavierActionPerformed
-    //private void activerBouton(){
-     //   var bouton = (javax.swing.JButton)getSource();
-     //   bouton.setEnabled(false);
+    private void activerBouton(){
+        var boutons = Clavier.getComponents();
+        for(int i = 0; i< boutons.length; i++){
+            if(boutons[i] instanceof javax.swing.JButton){
+                boutons[i].setEnabled(true);
 
-    //}
+            }
+        }
+    }
     
     public void lettreTapper(String lettre){
         histLettres.add(lettre);
@@ -605,6 +609,8 @@ public class gameboard extends javax.swing.JFrame {
             histLettres.clear();
             
             motCache();
+            activerBouton();
+
             texteMotMystere = motMystereCache(motChoisi, histLettres);
             mot.setText(texteMotMystere);
         }
