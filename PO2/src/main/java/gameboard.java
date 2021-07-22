@@ -531,6 +531,22 @@ public class gameboard extends javax.swing.JFrame {
         System.out.println(motChoisi);
         
     }
+    //methode pour le score du joueur +1 pour chaque lettre trouver
+    private int Pointage1(){
+        pointage++;
+        System.out.println(pointage);
+        String scoreJoueur = Integer.toString(pointage);
+        score.setText(scoreJoueur);
+        
+        return pointage;
+    }
+    private int Pointage2(){
+        pointage = pointage + 5;
+        String scoreJoueur = Integer.toString(pointage);
+        score.setText(scoreJoueur);
+        return pointage;
+    }
+    
     //creation d'une methode generique pour comparer un mot a un tableau de lettre
     //Boucle qui separe le mot lettre par lettre
     private String motMystereCache(String word, ArrayList<String> lettres) {       
@@ -597,6 +613,11 @@ public class gameboard extends javax.swing.JFrame {
         if(estErreur(motChoisi, lettre)) {
             nbErreurs++;
         }
+        else{
+            Pointage1();
+            
+        }
+        
         System.out.println(nbErreurs + "/" + nbEssais());
         //creation du String texteMotMystere qui prend la valeur
         String texteMotMystere = motMystereCache(motChoisi, histLettres);
@@ -607,6 +628,7 @@ public class gameboard extends javax.swing.JFrame {
         
         if(texteMotMystere.indexOf("_") == -1) {
             System.out.println("YOU ROCK! YOU WIN! CHICKEN DINNER!");
+            Pointage2();
             histLettres.clear();
             
             motCache();
