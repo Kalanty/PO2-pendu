@@ -23,6 +23,7 @@ public class gameboard extends javax.swing.JFrame {
     private String motChoisi;
     private StringBuilder motH;
     private int nbErreurs = 0;
+    private int pointage =0;
 
     /**
      * Creates new form gameboard
@@ -590,7 +591,7 @@ public class gameboard extends javax.swing.JFrame {
     public void lettreTapper(String lettre){
         histLettres.add(lettre);
         System.out.println(histLettres);        
-        score.setText(histLettres.toString());
+        //score.setText(histLettres.toString());
         // SI la methode estErreur() qui compare les lettres avec le mot
         //incrementation de la variable nbErreurs
         if(estErreur(motChoisi, lettre)) {
