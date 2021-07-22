@@ -532,18 +532,12 @@ public class gameboard extends javax.swing.JFrame {
         
     }
     //methode pour le score du joueur +1 pour chaque lettre trouver
-    private int Pointage1(){
-        pointage++;
+    private int ajusterPointage(int ajustement){
+        pointage = pointage + ajustement;
         System.out.println(pointage);
         String scoreJoueur = Integer.toString(pointage);
         score.setText(scoreJoueur);
         
-        return pointage;
-    }
-    private int Pointage2(){
-        pointage = pointage + 5;
-        String scoreJoueur = Integer.toString(pointage);
-        score.setText(scoreJoueur);
         return pointage;
     }
     
@@ -614,8 +608,7 @@ public class gameboard extends javax.swing.JFrame {
             nbErreurs++;
         }
         else{
-            Pointage1();
-            
+            ajusterPointage(1);
         }
         
         System.out.println(nbErreurs + "/" + nbEssais());
@@ -628,7 +621,7 @@ public class gameboard extends javax.swing.JFrame {
         
         if(texteMotMystere.indexOf("_") == -1) {
             System.out.println("YOU ROCK! YOU WIN! CHICKEN DINNER!");
-            Pointage2();
+            ajusterPointage(5);
             histLettres.clear();
             
             motCache();
