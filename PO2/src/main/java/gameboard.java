@@ -37,7 +37,7 @@ public class gameboard extends javax.swing.JFrame {
     private final String IMAGE_TYPE = ".png";
     String texteMotMystere;
     private Component frame;
-    String path;
+    
     
 
     
@@ -654,7 +654,7 @@ public class gameboard extends javax.swing.JFrame {
     //telecharger l'image
     private void refreshImage(){
         //image = "hangman_0.png";
-        
+        String path;
         if(nbErreurs == 6){
             path = IMAGE_BASE_NAME + "_lose" + IMAGE_TYPE;
         }
@@ -697,7 +697,7 @@ public class gameboard extends javax.swing.JFrame {
             ajusterPointage(5);
             refreshImage();
 
-            //endWindow();
+            endWindow();
 
             histLettres.clear();
             nbErreurs = 0;
@@ -705,8 +705,6 @@ public class gameboard extends javax.swing.JFrame {
             motCache();
             activerBouton();
             //refreshImage();
-
-
             texteMotMystere = motMystereCache(motChoisi, histLettres);
             mot.setText(texteMotMystere);
         }else if(nbErreurs == 6){
