@@ -28,7 +28,7 @@ public class gameboard extends javax.swing.JFrame {
     private final String IMAGE_DIRECTORY = "/Images/";
     private final String IMAGE_BASE_NAME = "hangman";
     private final String IMAGE_TYPE = ".png";
-    private String path;
+    
 
     
     /**
@@ -46,7 +46,7 @@ public class gameboard extends javax.swing.JFrame {
         //afficher le String apres chaque comparaison
         mot.setText(texteMotMystere);   
         
-        imageLabel.setIcon(createImageIcon("hangman_0.png", "a pretty but meaningless splat"));
+        refreshImage();
         
         //joueur1 = nomDuJoueur.getText();
         
@@ -54,11 +54,10 @@ public class gameboard extends javax.swing.JFrame {
     }
     
     /** Returns an ImageIcon, or null if the path was invalid. */
-    protected ImageIcon createImageIcon(String path,
-                                        String description) {
+    protected ImageIcon createImageIcon(String path) {
         java.net.URL imgURL = getClass().getClassLoader().getResource(path);
         if (imgURL != null) {
-            return new ImageIcon(imgURL, description);
+            return new ImageIcon(imgURL);
         } else {
             System.err.println("Couldn't find file: " + path);
             return null;
@@ -122,7 +121,8 @@ public class gameboard extends javax.swing.JFrame {
 
         Dessin.setBackground(new java.awt.Color(255, 255, 255));
 
-        imageLabel.setText("jLabel1");
+        imageLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        imageLabel.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         imageLabel.addContainerListener(new java.awt.event.ContainerAdapter() {
             public void componentAdded(java.awt.event.ContainerEvent evt) {
                 imageLabelComponentAdded(evt);
@@ -134,13 +134,13 @@ public class gameboard extends javax.swing.JFrame {
         DessinLayout.setHorizontalGroup(
             DessinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, DessinLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(imageLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         DessinLayout.setVerticalGroup(
             DessinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(imageLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(imageLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE)
         );
 
         labelJoueur.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -529,14 +529,16 @@ public class gameboard extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Clavier, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(Dessin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(74, 74, 74)))
+                        .addGap(22, 22, 22))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addComponent(Clavier, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addComponent(rightPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(11, 11, 11))
+                .addGap(63, 63, 63))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -615,7 +617,7 @@ public class gameboard extends javax.swing.JFrame {
         var bouton = (javax.swing.JButton)evt.getSource();
         bouton.setEnabled(false);
         lettreTapper(bouton.getText());
-        getImage();
+        
         //rend impossible l'utilisation des boutons avec la première
         //utilisation
     }//GEN-LAST:event_clavierActionPerformed
@@ -630,16 +632,24 @@ public class gameboard extends javax.swing.JFrame {
         }
     }
     //telecharger l'image
-    private void getImage(){
+    private void refreshImage(){
         //image = "hangman_0.png";
-        path = IMAGE_DIRECTORY + IMAGE_BASE_NAME + "_" + nbErreurs + IMAGE_TYPE;
-        ImageIcon ico = new ImageIcon(getClass()
-            .getClassLoader().getResource("images/hangman_0.png"));
+        String path;
+        if(nbErreurs == 6){
+            path = IMAGE_BASE_NAME + "_lose" + IMAGE_TYPE;
+        }
+        else{
+            path = IMAGE_BASE_NAME + "_" + nbErreurs + IMAGE_TYPE;
+        }
+        
+                
+
+        ImageIcon ico = createImageIcon(path);
         imageLabel.setIcon(ico);
         getContentPane().add(imageLabel);
 
     }
-    //
+    
     
     public void lettreTapper(String lettre){
         histLettres.add(lettre);
@@ -649,6 +659,7 @@ public class gameboard extends javax.swing.JFrame {
         //incrementation de la variable nbErreurs
         if(estErreur(motChoisi, lettre)) {
             nbErreurs++;
+            refreshImage();
         }
         else{
             ajusterPointage(1);
