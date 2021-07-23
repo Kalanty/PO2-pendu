@@ -38,9 +38,6 @@ public class gameboard extends javax.swing.JFrame {
     String texteMotMystere;
     private Component frame;
     
-    
-
-    
     /**
      * Creates new form gameboard
      */
@@ -70,8 +67,23 @@ public class gameboard extends javax.swing.JFrame {
         nomDuJoueur.setText(username);
     }
     public void endWindow(){
-        JOptionPane.showMessageDialog(null, "Voulez vous jouer une autre partie?");
-        
+        int dialogButton = 0;
+        int dialogResult = JOptionPane.showConfirmDialog (null, "Voulez vous rejouer une partie?","Warning",dialogButton);
+        if(dialogResult == JOptionPane.YES_OPTION){
+            System.out.println("yes");
+            
+            histLettres.clear();
+            nbErreurs = 0;
+            refreshImage();
+
+            motCache();
+            activerBouton();
+            texteMotMystere = motMystereCache(motChoisi, histLettres);
+            mot.setText(texteMotMystere);
+        }
+        else{
+            System.exit(0);
+        }
     }
     /** Returns an ImageIcon, or null if the path was invalid. */
     protected ImageIcon createImageIcon(String path) {
@@ -699,14 +711,6 @@ public class gameboard extends javax.swing.JFrame {
 
             endWindow();
 
-            histLettres.clear();
-            nbErreurs = 0;
-
-            motCache();
-            activerBouton();
-            //refreshImage();
-            texteMotMystere = motMystereCache(motChoisi, histLettres);
-            mot.setText(texteMotMystere);
         }else if(nbErreurs == 6){
             System.out.println("ECHEC, VOUS AVEZ PERDU LA PARTIE!!!");
             endWindow();
