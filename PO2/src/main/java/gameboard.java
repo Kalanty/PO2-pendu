@@ -68,18 +68,21 @@ public class gameboard extends javax.swing.JFrame {
     }
     public void endWindow(){
         int dialogButton = 0;
-        int dialogResult = JOptionPane.showConfirmDialog (null, "Voulez vous rejouer une partie?","Warning",dialogButton);
+        Object[] options = { "Oui", "Non" };
+        //int dialogResult = JOptionPane.showConfirmDialog(null, "Voulez vous rejouer une partie?","Warning",dialogButton);
+        int dialogResult = JOptionPane.showOptionDialog(null, "Voulez vous rejouer une partie?", "Fin de la partie", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+
         if(dialogResult == JOptionPane.YES_OPTION){
             System.out.println("yes");
             
             histLettres.clear();
             nbErreurs = 0;
-            refreshImage();
-
             motCache();
             activerBouton();
             texteMotMystere = motMystereCache(motChoisi, histLettres);
             mot.setText(texteMotMystere);
+            refreshImage();
+
         }
         else{
             System.exit(0);
@@ -703,7 +706,8 @@ public class gameboard extends javax.swing.JFrame {
         // YOU WIN!!!!!
         //effacer l'historique de lettres
         //selection d'un nouveau mot dans la banque de mot
-        
+        mot.setText(texteMotMystere); 
+
         if(texteMotMystere.indexOf("_") == -1) {
             System.out.println("YOU ROCK! YOU WIN! CHICKEN DINNER!");
             ajusterPointage(5);
@@ -716,7 +720,6 @@ public class gameboard extends javax.swing.JFrame {
             endWindow();
         }
         
-        mot.setText(texteMotMystere); 
     }
     
     private void debuterPartieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_debuterPartieActionPerformed
