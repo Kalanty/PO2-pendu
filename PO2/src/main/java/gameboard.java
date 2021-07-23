@@ -44,13 +44,26 @@ public class gameboard extends javax.swing.JFrame {
         //entre mon motChoisi et ma liste de lettre essayer.
         String texteMotMystere = motMystereCache(motChoisi, histLettres);
         //afficher le String apres chaque comparaison
-        mot.setText(texteMotMystere);    
+        mot.setText(texteMotMystere);   
+        
+        imageLabel.setIcon(createImageIcon("hangman_0.png", "a pretty but meaningless splat"));
         
         //joueur1 = nomDuJoueur.getText();
         
         //System.out.println(joueur1);
     }
     
+    /** Returns an ImageIcon, or null if the path was invalid. */
+    protected ImageIcon createImageIcon(String path,
+                                        String description) {
+        java.net.URL imgURL = getClass().getClassLoader().getResource(path);
+        if (imgURL != null) {
+            return new ImageIcon(imgURL, description);
+        } else {
+            System.err.println("Couldn't find file: " + path);
+            return null;
+        }
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -122,7 +135,7 @@ public class gameboard extends javax.swing.JFrame {
             DessinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, DessinLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(imageLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 490, Short.MAX_VALUE)
+                .addComponent(imageLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         DessinLayout.setVerticalGroup(
@@ -516,7 +529,7 @@ public class gameboard extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(58, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(Clavier, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
