@@ -4,6 +4,7 @@ import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyEvent;
 import java.util.Random;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -24,7 +25,12 @@ public class gameboard extends javax.swing.JFrame {
     private StringBuilder motH;
     private int nbErreurs = 0;
     private int pointage =0;
+    private final String IMAGE_DIRECTORY = "/Images/";
+    private final String IMAGE_BASE_NAME = "hangman";
+    private final String IMAGE_TYPE = ".png";
+    private String path;
 
+    
     /**
      * Creates new form gameboard
      */
@@ -33,6 +39,7 @@ public class gameboard extends javax.swing.JFrame {
         initComponents();
         //Demander le nom du joueur
         motCache();
+        //getImage();
         //creation d'un String pour y stocker le resultat de la comparaison
         //entre mon motChoisi et ma liste de lettre essayer.
         String texteMotMystere = motMystereCache(motChoisi, histLettres);
@@ -55,6 +62,7 @@ public class gameboard extends javax.swing.JFrame {
     private void initComponents() {
 
         Dessin = new javax.swing.JPanel();
+        imageLabel = new javax.swing.JLabel();
         rightPanel = new javax.swing.JPanel();
         labelJoueur = new javax.swing.JLabel();
         nomDuJoueur = new javax.swing.JTextField();
@@ -101,15 +109,25 @@ public class gameboard extends javax.swing.JFrame {
 
         Dessin.setBackground(new java.awt.Color(255, 255, 255));
 
+        imageLabel.setText("jLabel1");
+        imageLabel.addContainerListener(new java.awt.event.ContainerAdapter() {
+            public void componentAdded(java.awt.event.ContainerEvent evt) {
+                imageLabelComponentAdded(evt);
+            }
+        });
+
         javax.swing.GroupLayout DessinLayout = new javax.swing.GroupLayout(Dessin);
         Dessin.setLayout(DessinLayout);
         DessinLayout.setHorizontalGroup(
             DessinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 404, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, DessinLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(imageLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 490, Short.MAX_VALUE)
+                .addContainerGap())
         );
         DessinLayout.setVerticalGroup(
             DessinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 271, Short.MAX_VALUE)
+            .addComponent(imageLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         labelJoueur.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -127,7 +145,6 @@ public class gameboard extends javax.swing.JFrame {
         labelMotMystere.setText("Mot mystere");
 
         mot.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        mot.setText("jTextField3");
 
         jButton4.setText("Débuter Partie");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -499,12 +516,12 @@ public class gameboard extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(58, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(Clavier, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(Dessin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(74, 74, 74))
-                    .addComponent(Clavier, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(74, 74, 74)))
                 .addComponent(rightPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(11, 11, 11))
         );
@@ -514,8 +531,8 @@ public class gameboard extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(Dessin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Dessin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(Clavier, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(rightPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -531,22 +548,16 @@ public class gameboard extends javax.swing.JFrame {
         System.out.println(motChoisi);
         
     }
-    //methode pour le score du joueur +1 pour chaque lettre trouver
-    private int Pointage1(){
-        pointage++;
+    //methode pour incrementer le score du joueur par le nombre
+    //en parametre
+    private int ajusterPointage(int ajustement){
+        pointage = pointage + ajustement;
         System.out.println(pointage);
         String scoreJoueur = Integer.toString(pointage);
-        score.setText(scoreJoueur);
-        
+        score.setText(scoreJoueur);        
         return pointage;
     }
-    private int Pointage2(){
-        pointage = pointage + 5;
-        String scoreJoueur = Integer.toString(pointage);
-        score.setText(scoreJoueur);
-        return pointage;
-    }
-    
+       
     //creation d'une methode generique pour comparer un mot a un tableau de lettre
     //Boucle qui separe le mot lettre par lettre
     private String motMystereCache(String word, ArrayList<String> lettres) {       
@@ -591,9 +602,11 @@ public class gameboard extends javax.swing.JFrame {
         var bouton = (javax.swing.JButton)evt.getSource();
         bouton.setEnabled(false);
         lettreTapper(bouton.getText());
+        getImage();
         //rend impossible l'utilisation des boutons avec la première
         //utilisation
     }//GEN-LAST:event_clavierActionPerformed
+    
     private void activerBouton(){
         var boutons = Clavier.getComponents();
         for(int i = 0; i< boutons.length; i++){
@@ -603,6 +616,17 @@ public class gameboard extends javax.swing.JFrame {
             }
         }
     }
+    //telecharger l'image
+    private void getImage(){
+        //image = "hangman_0.png";
+        path = IMAGE_DIRECTORY + IMAGE_BASE_NAME + "_" + nbErreurs + IMAGE_TYPE;
+        ImageIcon ico = new ImageIcon(getClass()
+            .getClassLoader().getResource("images/hangman_0.png"));
+        imageLabel.setIcon(ico);
+        getContentPane().add(imageLabel);
+
+    }
+    //
     
     public void lettreTapper(String lettre){
         histLettres.add(lettre);
@@ -614,8 +638,7 @@ public class gameboard extends javax.swing.JFrame {
             nbErreurs++;
         }
         else{
-            Pointage1();
-            
+            ajusterPointage(1);
         }
         
         System.out.println(nbErreurs + "/" + nbEssais());
@@ -628,9 +651,9 @@ public class gameboard extends javax.swing.JFrame {
         
         if(texteMotMystere.indexOf("_") == -1) {
             System.out.println("YOU ROCK! YOU WIN! CHICKEN DINNER!");
-            Pointage2();
+            ajusterPointage(5);
             histLettres.clear();
-            
+            nbErreurs = 0;
             motCache();
             activerBouton();
 
@@ -650,6 +673,10 @@ public class gameboard extends javax.swing.JFrame {
         //reinitialisation de la variable score.
         //selection du mot mystere.
     }//GEN-LAST:event_debuterPartieActionPerformed
+
+    private void imageLabelComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_imageLabelComponentAdded
+        // TODO add your handling code here:
+    }//GEN-LAST:event_imageLabelComponentAdded
 
     /**
      * @param args the command line arguments
@@ -707,6 +734,7 @@ public class gameboard extends javax.swing.JFrame {
     private javax.swing.JPanel Clavier;
     private javax.swing.JPanel Dessin;
     private javax.swing.JMenuItem aProposDe;
+    private javax.swing.JLabel imageLabel;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
