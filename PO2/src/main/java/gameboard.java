@@ -1,10 +1,17 @@
 
+import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.Random;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -28,6 +35,9 @@ public class gameboard extends javax.swing.JFrame {
     private final String IMAGE_DIRECTORY = "/Images/";
     private final String IMAGE_BASE_NAME = "hangman";
     private final String IMAGE_TYPE = ".png";
+    String texteMotMystere;
+    private Component frame;
+    String path;
     
 
     
@@ -38,11 +48,13 @@ public class gameboard extends javax.swing.JFrame {
        
         initComponents();
         //Demander le nom du joueur
+        startWindow();
         motCache();
+
         //getImage();
         //creation d'un String pour y stocker le resultat de la comparaison
         //entre mon motChoisi et ma liste de lettre essayer.
-        String texteMotMystere = motMystereCache(motChoisi, histLettres);
+        texteMotMystere = motMystereCache(motChoisi, histLettres);
         //afficher le String apres chaque comparaison
         mot.setText(texteMotMystere);   
         
@@ -52,7 +64,15 @@ public class gameboard extends javax.swing.JFrame {
         
         //System.out.println(joueur1);
     }
-    
+    public void startWindow(){
+        String username = JOptionPane.showInputDialog(null, "Commencer par entrer le nom du joueur.");
+        System.out.println(username);
+        nomDuJoueur.setText(username);
+    }
+    public void endWindow(){
+        JOptionPane.showMessageDialog(null, "Voulez vous jouer une autre partie?");
+        
+    }
     /** Returns an ImageIcon, or null if the path was invalid. */
     protected ImageIcon createImageIcon(String path) {
         java.net.URL imgURL = getClass().getClassLoader().getResource(path);
@@ -567,7 +587,7 @@ public class gameboard extends javax.swing.JFrame {
     //en parametre
     private int ajusterPointage(int ajustement){
         pointage = pointage + ajustement;
-        System.out.println(pointage);
+        //System.out.println(pointage);
         String scoreJoueur = Integer.toString(pointage);
         score.setText(scoreJoueur);        
         return pointage;
@@ -627,34 +647,33 @@ public class gameboard extends javax.swing.JFrame {
         for(int i = 0; i< boutons.length; i++){
             if(boutons[i] instanceof javax.swing.JButton){
                 boutons[i].setEnabled(true);
-
             }
         }
     }
+    
     //telecharger l'image
     private void refreshImage(){
         //image = "hangman_0.png";
-        String path;
+        
         if(nbErreurs == 6){
             path = IMAGE_BASE_NAME + "_lose" + IMAGE_TYPE;
+        }
+        else if (texteMotMystere.indexOf("_") == -1){
+            path = IMAGE_BASE_NAME + "_win" + IMAGE_TYPE;
+
         }
         else{
             path = IMAGE_BASE_NAME + "_" + nbErreurs + IMAGE_TYPE;
         }
-        
-                
-
         ImageIcon ico = createImageIcon(path);
         imageLabel.setIcon(ico);
         getContentPane().add(imageLabel);
 
     }
     
-    
     public void lettreTapper(String lettre){
         histLettres.add(lettre);
-        System.out.println(histLettres);        
-        //score.setText(histLettres.toString());
+        System.out.println(histLettres);
         // SI la methode estErreur() qui compare les lettres avec le mot
         //incrementation de la variable nbErreurs
         if(estErreur(motChoisi, lettre)) {
@@ -667,7 +686,7 @@ public class gameboard extends javax.swing.JFrame {
         
         System.out.println(nbErreurs + "/" + nbEssais());
         //creation du String texteMotMystere qui prend la valeur
-        String texteMotMystere = motMystereCache(motChoisi, histLettres);
+        texteMotMystere = motMystereCache(motChoisi, histLettres);
         //s'il n'y a plus de "_" dans la varible texteMotMystere, 
         // YOU WIN!!!!!
         //effacer l'historique de lettres
@@ -676,13 +695,23 @@ public class gameboard extends javax.swing.JFrame {
         if(texteMotMystere.indexOf("_") == -1) {
             System.out.println("YOU ROCK! YOU WIN! CHICKEN DINNER!");
             ajusterPointage(5);
+            refreshImage();
+
+            //endWindow();
+
             histLettres.clear();
             nbErreurs = 0;
+
             motCache();
             activerBouton();
+            //refreshImage();
+
 
             texteMotMystere = motMystereCache(motChoisi, histLettres);
             mot.setText(texteMotMystere);
+        }else if(nbErreurs == 6){
+            System.out.println("ECHEC, VOUS AVEZ PERDU LA PARTIE!!!");
+            endWindow();
         }
         
         mot.setText(texteMotMystere); 
