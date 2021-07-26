@@ -42,7 +42,7 @@ public class gameboard extends javax.swing.JFrame {
      * Creates new form gameboard
      */
     public gameboard() {
-       
+        
         initComponents();
         //Demander le nom du joueur
         startWindow();
@@ -55,9 +55,10 @@ public class gameboard extends javax.swing.JFrame {
         texteMotMystere = motMystereCache(motChoisi, histLettres);
         //afficher le String apres chaque comparaison
         mot.setText(texteMotMystere);   
-        
+        addCloseWindowListener();
         refreshImage();
     }
+    
     public void startWindow(){
         int rdy = 0;
         String username = "";
@@ -641,7 +642,21 @@ public class gameboard extends javax.swing.JFrame {
         }
         return chaine.toString();
     }
-    // methode qui donne -1 si une lettre ne fais pas partie d'un mot
+/**
+	 * Invite l'utilisateur à confirmer avant de quitter la fenêtre.
+	 */
+	private void addCloseWindowListener() {
+		// REMARQUE : Doit être DO_NOTHING_ON_CLOSE pour que l'invite fonctionne
+		// correctement
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent we) {
+                            quitWindow();	
+			}
+		});
+	}    
+// methode qui donne -1 si une lettre ne fais pas partie d'un mot
     private boolean estErreur(String word, String lettre) {
         return word.indexOf(lettre) == -1;
     }
@@ -767,41 +782,7 @@ public class gameboard extends javax.swing.JFrame {
         //selection du mot mystere.
     }//GEN-LAST:event_debuterPartieActionPerformed
 
-//    /**
-//     * @param args the command line arguments
-//     */
-//    public static void main(String args[]) {
-//        /* Set the Nimbus look and feel */
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(gameboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(gameboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(gameboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(gameboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-//
-//        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new gameboard().setVisible(true);
-//            }
-//        });
-//        
-//    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Clavier;
