@@ -25,8 +25,8 @@ import javax.swing.JTextField;
 public class gameboard extends javax.swing.JFrame {
     ArrayList<String> histLettres = new ArrayList<>();
     private static String[] motsMysteres = 
-            {"jeux", "espoir", "apprendre", "joie", "patate"
-            , "poulet", "camion", "voiture", "ordinateur", "programmer"};
+        {"jeux", "espoir", "apprendre", "joie", "patate",
+        "poulet", "camion", "voiture", "ordinateur", "programmer"};
     private String joueur1;
     private String motChoisi;
     private StringBuilder motH;
@@ -42,9 +42,7 @@ public class gameboard extends javax.swing.JFrame {
      * Creates new form gameboard
      */
     public gameboard() {
-        
         initComponents();
-        //Demander le nom du joueur
         startWindow();
         motCache();
         nomDuJoueur.setEditable(false);
@@ -58,7 +56,7 @@ public class gameboard extends javax.swing.JFrame {
         addCloseWindowListener();
         refreshImage();
     }
-    
+    //Demande le nom au joueur
     public void startWindow(){
         int rdy = 0;
         String username = "";
@@ -77,11 +75,19 @@ public class gameboard extends javax.swing.JFrame {
         nomDuJoueur.setText(username);
         
     }
+    //lorsque la partie est terminé
     public void endWindow(){
         int dialogButton = 0;
         Object[] options = { "Oui", "Non" };
-        //int dialogResult = JOptionPane.showConfirmDialog(null, "Voulez vous rejouer une partie?","Warning",dialogButton);
-        int dialogResult = JOptionPane.showOptionDialog(null, "Voulez vous rejouer une partie?", "Fin de la partie", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+        int dialogResult = JOptionPane.showOptionDialog
+            (null,
+            "Voulez vous rejouer une partie?",
+            "Fin de la partie",
+            JOptionPane.DEFAULT_OPTION,
+            JOptionPane.QUESTION_MESSAGE,
+            null,
+            options,
+            options[0]);
 
         if(dialogResult == JOptionPane.YES_OPTION){
             histLettres.clear();
@@ -96,10 +102,18 @@ public class gameboard extends javax.swing.JFrame {
             quitWindow();
         }
     }
+    //invite confirmation avant de quitter
     public void quitWindow(){
         int dialogButton = 0;
         Object[] options = { "Oui", "Non" };
-        int dialogResult = JOptionPane.showOptionDialog(null, "Voulez vous vraiment quiter le jeu?", "Fin de la partie", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+        int dialogResult = JOptionPane.showOptionDialog
+            (null,
+            "Voulez vous vraiment quiter le jeu?", "Fin de la partie",
+            JOptionPane.DEFAULT_OPTION,
+            JOptionPane.QUESTION_MESSAGE,
+            null,
+            options,
+            options[0]);
 
         if(dialogResult == JOptionPane.YES_OPTION){
             System.exit(0);
@@ -117,6 +131,122 @@ public class gameboard extends javax.swing.JFrame {
             System.err.println("Couldn't find file: " + path);
             return null;
         }
+    }
+    
+    private void activerBouton(){
+        var boutons = Clavier.getComponents();
+        for(int i = 0; i< boutons.length; i++){
+            if(boutons[i] instanceof javax.swing.JButton){
+                boutons[i].setEnabled(true);
+            }
+        }
+    }
+    
+    //telecharger l'image en fonction du path dans l'endroit approprié
+    private void refreshImage(){
+        String path;
+        if(nbErreurs == 6){
+            path = IMAGE_BASE_NAME + "_lose" + IMAGE_TYPE;
+        }
+        else if (texteMotMystere.indexOf("_") == -1){
+            path = IMAGE_BASE_NAME + "_win" + IMAGE_TYPE;
+        }
+        else{
+            path = IMAGE_BASE_NAME + "_" + nbErreurs + IMAGE_TYPE;
+        }
+        ImageIcon ico = createImageIcon(path);
+        imageLabel.setIcon(ico);
+        getContentPane().add(imageLabel);
+    }
+    
+    public void lettreTapper(String lettre){
+        histLettres.add(lettre);
+        System.out.println(histLettres);
+        // Si la lettre n'est pas dans le mot
+        //incrementation de la variable nbErreurs
+        if(estErreur(motChoisi, lettre)) {
+            nbErreurs++;
+            refreshImage();
+        }
+        else{
+            ajusterPointage(1);
+        }
+        
+        System.out.println(nbErreurs + "/" + nbEssais());
+        //creation du String texteMotMystere qui prend la valeur
+        texteMotMystere = motMystereCache(motChoisi, histLettres);
+        //s'il n'y a plus de "_" dans la varible texteMotMystere, 
+        // YOU WIN!!!!!
+        //effacer l'historique de lettres
+        //selection d'un nouveau mot dans la banque de mot
+        mot.setText(texteMotMystere); 
+
+        if(texteMotMystere.indexOf("_") == -1) {
+            System.out.println("YOU ROCK! YOU WIN! CHICKEN DINNER!");
+            ajusterPointage(5);
+            refreshImage();
+            endWindow();
+
+        }else if(nbErreurs == 6){
+            System.out.println("ECHEC, VOUS AVEZ PERDU LA PARTIE!!!");
+            endWindow();
+        }
+        
+    }
+    //Selection du mot mystere dans la banque de mot.
+    //Force le mot choisi en majuscule pour eviter les conflits avec le clavier.
+    //afficher le mot dans la console.
+    public void motCache(){
+        motChoisi = motsMysteres[(int) (Math.random() * motsMysteres.length)].toUpperCase();
+        System.out.println(motChoisi);
+    }
+    //methode pour incrementer le score du joueur par le nombre
+    //en parametre
+    private int ajusterPointage(int ajustement){
+        pointage = pointage + ajustement;
+        //System.out.println(pointage);
+        String scoreJoueur = Integer.toString(pointage);
+        score.setText(scoreJoueur);        
+        return pointage;
+    }
+       
+    //creation d'une methode generique pour comparer un mot a un tableau de lettre
+    //Boucle qui separe le mot lettre par lettre
+    private String motMystereCache(String word, ArrayList<String> lettres) {       
+        StringBuilder chaine = new StringBuilder();
+        //boucle pour remplacer tout les lettres du motChoisi par des "_ "
+        for(int i = 0; i < word.length(); i++){
+            String lettreCourante = String.valueOf(word.charAt(i));
+            //Si les lettres du mot fais partir de mes lettres testées,
+            //remplacer la lettre dans le mot
+            if(lettres.indexOf(lettreCourante)>-1){
+                chaine.append(lettreCourante);
+             }
+            // laisser le "_ " si la lettre n'est pas dans le mot
+            else{
+                chaine.append("_ ");
+            }
+        }
+        return chaine.toString();
+    }
+    // Invite l'utilisateur à confirmer avant de quitter la fenêtre.
+    private void addCloseWindowListener() {
+	// REMARQUE : Doit être DO_NOTHING_ON_CLOSE pour que l'invite fonctionne
+	// correctement
+	setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+	addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent we) {
+                quitWindow();	
+            }
+	});
+    }    
+    // methode qui retourne faux (-1) si une lettre ne fais pas partie d'un mot
+    private boolean estErreur(String word, String lettre) {
+        return word.indexOf(lettre) == -1;
+    }
+    //methode qui retourne la quantité de lettre essayés
+    private int nbEssais() {
+        return histLettres.size();
     }
     
     /**
@@ -605,66 +735,7 @@ public class gameboard extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    public void motCache(){
-        //Selection du mot mystere dans la banque de mot.
-        //Force le mot choisi en majuscule pour eviter les conflits avec le clavier.
-        //afficher le mot dans la console.
-        motChoisi = motsMysteres[(int) (Math.random() * motsMysteres.length)].toUpperCase();
-        System.out.println(motChoisi);
-        
-    }
-    //methode pour incrementer le score du joueur par le nombre
-    //en parametre
-    private int ajusterPointage(int ajustement){
-        pointage = pointage + ajustement;
-        //System.out.println(pointage);
-        String scoreJoueur = Integer.toString(pointage);
-        score.setText(scoreJoueur);        
-        return pointage;
-    }
-       
-    //creation d'une methode generique pour comparer un mot a un tableau de lettre
-    //Boucle qui separe le mot lettre par lettre
-    private String motMystereCache(String word, ArrayList<String> lettres) {       
-        StringBuilder chaine = new StringBuilder();
-        //boucle pour remplacer tout les lettres du motChoisi par des "_ "
-        for(int i = 0; i < word.length(); i++){
-            String lettreCourante = String.valueOf(word.charAt(i));
-            //Si les lettres du mot fais partir de mes lettres testées,
-            //remplacer la lettre dans le mot
-            if(lettres.indexOf(lettreCourante)>-1){
-                chaine.append(lettreCourante);
-             }
-            // laisser le "_ " si la lettre n'est pas dans le mot
-            else{
-                chaine.append("_ ");
-            }
-        }
-        return chaine.toString();
-    }
-/**
-	 * Invite l'utilisateur à confirmer avant de quitter la fenêtre.
-	 */
-	private void addCloseWindowListener() {
-		// REMARQUE : Doit être DO_NOTHING_ON_CLOSE pour que l'invite fonctionne
-		// correctement
-		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent we) {
-                            quitWindow();	
-			}
-		});
-	}    
-// methode qui donne -1 si une lettre ne fais pas partie d'un mot
-    private boolean estErreur(String word, String lettre) {
-        return word.indexOf(lettre) == -1;
-    }
-    //methode qui retourne la quantité de lettre essayés
-    private int nbEssais() {
-        return histLettres.size();
-    }
-    
+   
     private void miQuitterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miQuitterActionPerformed
         quitWindow();
     }//GEN-LAST:event_miQuitterActionPerformed
@@ -702,67 +773,6 @@ public class gameboard extends javax.swing.JFrame {
         //utilisation
     }//GEN-LAST:event_clavierActionPerformed
     
-    private void activerBouton(){
-        var boutons = Clavier.getComponents();
-        for(int i = 0; i< boutons.length; i++){
-            if(boutons[i] instanceof javax.swing.JButton){
-                boutons[i].setEnabled(true);
-            }
-        }
-    }
-    
-    //telecharger l'image
-    private void refreshImage(){
-        //image = "hangman_0.png";
-        String path;
-        if(nbErreurs == 6){
-            path = IMAGE_BASE_NAME + "_lose" + IMAGE_TYPE;
-        }
-        else if (texteMotMystere.indexOf("_") == -1){
-            path = IMAGE_BASE_NAME + "_win" + IMAGE_TYPE;
-        }
-        else{
-            path = IMAGE_BASE_NAME + "_" + nbErreurs + IMAGE_TYPE;
-        }
-        ImageIcon ico = createImageIcon(path);
-        imageLabel.setIcon(ico);
-        getContentPane().add(imageLabel);
-    }
-    
-    public void lettreTapper(String lettre){
-        histLettres.add(lettre);
-        System.out.println(histLettres);
-        // SI la methode estErreur() qui compare les lettres avec le mot
-        //incrementation de la variable nbErreurs
-        if(estErreur(motChoisi, lettre)) {
-            nbErreurs++;
-            refreshImage();
-        }
-        else{
-            ajusterPointage(1);
-        }
-        
-        System.out.println(nbErreurs + "/" + nbEssais());
-        //creation du String texteMotMystere qui prend la valeur
-        texteMotMystere = motMystereCache(motChoisi, histLettres);
-        //s'il n'y a plus de "_" dans la varible texteMotMystere, 
-        // YOU WIN!!!!!
-        //effacer l'historique de lettres
-        //selection d'un nouveau mot dans la banque de mot
-        mot.setText(texteMotMystere); 
-
-        if(texteMotMystere.indexOf("_") == -1) {
-            System.out.println("YOU ROCK! YOU WIN! CHICKEN DINNER!");
-            ajusterPointage(5);
-            refreshImage();
-            endWindow();
-
-        }else if(nbErreurs == 6){
-            System.out.println("ECHEC, VOUS AVEZ PERDU LA PARTIE!!!");
-            endWindow();
-        }
-        
-    }
     
     private void debuterPartieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_debuterPartieActionPerformed
         // TODO add your handling code here:
