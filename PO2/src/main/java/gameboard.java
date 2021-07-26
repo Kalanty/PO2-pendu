@@ -65,12 +65,28 @@ public class gameboard extends javax.swing.JFrame {
         //System.out.println(joueur1);
     }
     public void startWindow(){
-        String username = JOptionPane.showInputDialog(null, "Commencer par entrer le nom du joueur.");
-        if(username == null|| username == ""){
-            JOptionPane.showInputDialog(null, "Commencer par entrer le nom du joueur.");
+        int rdy = 0;
+        String username = "";
+        while((rdy == 0)){
+            username = (String)JOptionPane.showInputDialog(null, "Commencer par entrer le nom du joueur.");
+            
+            if ((username != null)&&(username.length()> 0)){
+                rdy++;
+
+            }
+            
+            else{
+                rdy = 0;
+            }
+            
+            System.out.println(rdy);
+            
         }
         System.out.println(username);
         nomDuJoueur.setText(username);
+        //String username = null;
+        //while(username == null){
+        
     }
     public void endWindow(){
         int dialogButton = 0;
