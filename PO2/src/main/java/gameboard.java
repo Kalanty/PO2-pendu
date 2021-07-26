@@ -675,7 +675,7 @@ public class gameboard extends javax.swing.JFrame {
         jMenuItem1.setText("Nouvelle Partie");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                debuterPartieActionPerformed(evt);
+                jMenuItem1ActionPerformed(evt);
             }
         });
         mbFichier.add(jMenuItem1);
@@ -791,6 +791,11 @@ public class gameboard extends javax.swing.JFrame {
         //reinitialisation de la variable score.
         //selection du mot mystere.
     }//GEN-LAST:event_debuterPartieActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        this.dispose();
+        new gameboard().setVisible(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
 
 
