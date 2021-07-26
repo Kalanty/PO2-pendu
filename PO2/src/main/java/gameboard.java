@@ -50,8 +50,6 @@ public class gameboard extends javax.swing.JFrame {
         nomDuJoueur.setEditable(false);
         score.setEditable(false);
         mot.setEditable(false);
-
-        //getImage();
         //creation d'un String pour y stocker le resultat de la comparaison
         //entre mon motChoisi et ma liste de lettre essayer.
         texteMotMystere = motMystereCache(motChoisi, histLettres);
@@ -59,10 +57,6 @@ public class gameboard extends javax.swing.JFrame {
         mot.setText(texteMotMystere);   
         
         refreshImage();
-        
-        //joueur1 = nomDuJoueur.getText();
-        
-        //System.out.println(joueur1);
     }
     public void startWindow(){
         int rdy = 0;
@@ -72,20 +66,14 @@ public class gameboard extends javax.swing.JFrame {
             
             if ((username != null)&&(username.length()> 0)){
                 rdy++;
-
             }
-            
             else{
                 rdy = 0;
             }
-            
             System.out.println(rdy);
-            
         }
         System.out.println(username);
         nomDuJoueur.setText(username);
-        //String username = null;
-        //while(username == null){
         
     }
     public void endWindow(){
@@ -189,11 +177,6 @@ public class gameboard extends javax.swing.JFrame {
 
         imageLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         imageLabel.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-        imageLabel.addContainerListener(new java.awt.event.ContainerAdapter() {
-            public void componentAdded(java.awt.event.ContainerEvent evt) {
-                imageLabelComponentAdded(evt);
-            }
-        });
 
         javax.swing.GroupLayout DessinLayout = new javax.swing.GroupLayout(Dessin);
         Dessin.setLayout(DessinLayout);
@@ -722,7 +705,6 @@ public class gameboard extends javax.swing.JFrame {
         }
         else if (texteMotMystere.indexOf("_") == -1){
             path = IMAGE_BASE_NAME + "_win" + IMAGE_TYPE;
-
         }
         else{
             path = IMAGE_BASE_NAME + "_" + nbErreurs + IMAGE_TYPE;
@@ -730,7 +712,6 @@ public class gameboard extends javax.swing.JFrame {
         ImageIcon ico = createImageIcon(path);
         imageLabel.setIcon(ico);
         getContentPane().add(imageLabel);
-
     }
     
     public void lettreTapper(String lettre){
@@ -786,61 +767,41 @@ public class gameboard extends javax.swing.JFrame {
         //selection du mot mystere.
     }//GEN-LAST:event_debuterPartieActionPerformed
 
-    private void imageLabelComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_imageLabelComponentAdded
-        // TODO add your handling code here:
-    }//GEN-LAST:event_imageLabelComponentAdded
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(gameboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(gameboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(gameboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(gameboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new gameboard().setVisible(true);
-            }
-        });
-        /*
-        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
-            @Override
-            public boolean dispatchKeyEvent(KeyEvent e) {
-                if(e.getID() == KeyEvent.KEY_TYPED) {
-                    String lettre = String.valueOf(e.getKeyChar()).toUpperCase();
-                    String lettresAcceptes = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-                    
-                    if(lettresAcceptes.contains(lettre)) {
-                        System.out.println(lettre);
-                        //histLettres.add(lettre);
-                        //lettreTapper(lettre);
-                    }
-                }
-                return false;
-            }
-        });*/
-    }
+//    /**
+//     * @param args the command line arguments
+//     */
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(gameboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(gameboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(gameboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(gameboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new gameboard().setVisible(true);
+//            }
+//        });
+//        
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Clavier;
