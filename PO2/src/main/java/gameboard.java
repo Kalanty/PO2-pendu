@@ -102,10 +102,21 @@ public class gameboard extends javax.swing.JFrame {
             texteMotMystere = motMystereCache(motChoisi, histLettres);
             mot.setText(texteMotMystere);
             refreshImage();
-
         }
         else{
+            quitWindow();
+        }
+    }
+    public void quitWindow(){
+        int dialogButton = 0;
+        Object[] options = { "Oui", "Non" };
+        int dialogResult = JOptionPane.showOptionDialog(null, "Voulez vous vraiment quiter le jeu?", "Fin de la partie", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+
+        if(dialogResult == JOptionPane.YES_OPTION){
             System.exit(0);
+        }
+        else{
+            endWindow();
         }
     }
     /** Returns an ImageIcon, or null if the path was invalid. */
@@ -657,8 +668,7 @@ public class gameboard extends javax.swing.JFrame {
     }
     
     private void miQuitterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miQuitterActionPerformed
-        System.out.println("Fermeture de l'application");
-        System.exit(0);
+        quitWindow();
     }//GEN-LAST:event_miQuitterActionPerformed
 
     private void aProposDeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aProposDeActionPerformed
