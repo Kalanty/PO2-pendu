@@ -724,9 +724,17 @@ public class gameboard extends javax.swing.JFrame {
     
     private void debuterPartieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_debuterPartieActionPerformed
         // TODO add your handling code here:
-        this.dispose();
-        System.out.println("Debuter nouvelle partie.");
-        new gameboard().setVisible(true);
+        histLettres.clear();
+        nbErreurs = 0;
+        motCache();
+        activerBouton();
+        texteMotMystere = motMystereCache(motChoisi, histLettres);
+        mot.setText(texteMotMystere);
+        refreshImage();
+        pointage = 0;
+        String scoreJoueur = Integer.toString(pointage);
+        score.setText(scoreJoueur);        
+
         //popup de la fenetre pour nom du joueur.
         //reinitialisation de la variable score.
         //selection du mot mystere.
