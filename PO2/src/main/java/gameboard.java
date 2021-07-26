@@ -47,6 +47,9 @@ public class gameboard extends javax.swing.JFrame {
         //Demander le nom du joueur
         startWindow();
         motCache();
+        nomDuJoueur.setEditable(false);
+        score.setEditable(false);
+        mot.setEditable(false);
 
         //getImage();
         //creation d'un String pour y stocker le resultat de la comparaison
@@ -63,6 +66,9 @@ public class gameboard extends javax.swing.JFrame {
     }
     public void startWindow(){
         String username = JOptionPane.showInputDialog(null, "Commencer par entrer le nom du joueur.");
+        if(username == null|| username == ""){
+            JOptionPane.showInputDialog(null, "Commencer par entrer le nom du joueur.");
+        }
         System.out.println(username);
         nomDuJoueur.setText(username);
     }
@@ -73,8 +79,6 @@ public class gameboard extends javax.swing.JFrame {
         int dialogResult = JOptionPane.showOptionDialog(null, "Voulez vous rejouer une partie?", "Fin de la partie", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 
         if(dialogResult == JOptionPane.YES_OPTION){
-            System.out.println("yes");
-            
             histLettres.clear();
             nbErreurs = 0;
             motCache();
@@ -729,7 +733,6 @@ public class gameboard extends javax.swing.JFrame {
             System.out.println("YOU ROCK! YOU WIN! CHICKEN DINNER!");
             ajusterPointage(5);
             refreshImage();
-
             endWindow();
 
         }else if(nbErreurs == 6){
