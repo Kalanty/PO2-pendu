@@ -643,6 +643,23 @@ public class gameboard extends javax.swing.JFrame {
 
     private void aProposDeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aProposDeActionPerformed
         // TODO add your handling code here:
+        
+        //int dialogResult = JOptionPane.showMessageDialog(null, "contenu txt", "Titre", HEIGHT, icon);
+        //int dialogResult = JOptionPane.showMessageDialog(null, "contenu txt", "Titre", HEIGHT, icon));
+        JOptionPane.showMessageDialog(frame,
+        "Voici une liste de règlement pour le bonnehomme pendu:\n\n"
+        + "Vous devez commencer par entrer votre nom, ce qui doit déjà être fait,\n\n"
+        + "Un mot aléatoire à été choisi, il vous suffit d'essayer des lettres\n"
+        + "pour voir si elles font partie du mot mystère.\n"
+        + "Chaque erreur fera changer l'image et ajouter un membre au bonnehomme pendu.\n\n"
+        + "Si vous avez trouvé le mot mystère, vous avez l'option de rejouer ou arrêter\n"
+        + "Si vous cummulez 6 erreurs, vous aurez l'option de rejouer ou arrêter.",
+        "Instruction du jeu",
+        JOptionPane.PLAIN_MESSAGE);
+        //int dialogResult = JOptionPane.showMessageDialog(frame, Dessin, joueur1, HEIGHT);
+        //(null, "Voici une petite liste des règlements pour le jeu du bonnehomme pendu :"
+          //      + "/n Vous devez commencer par entrer le nom du joueur", "Règlement du jeu!", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+
     }//GEN-LAST:event_aProposDeActionPerformed
     
     private void clavierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clavierActionPerformed
